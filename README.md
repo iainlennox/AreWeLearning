@@ -44,54 +44,104 @@ only safe because the handler is idempotent.
 the key so a retry returns the original result.
 ```
 
-## Install
+## How it works
 
-Clone into a directory your agent already discovers:
+Two directories, one clone:
 
-```sh
-# Global (OpenCode; use ~/.claude/skills for Claude Code)
-git clone https://github.com/iainlennox/AreWeLearning.git \
-  ~/.config/opencode/skills/AreWeLearning
+```text
+~/code/AreWeLearning                 ← clone once. The library.
+  skills/learning/learning-log/
+    SKILL.md                         ← registers as "learning-log"
 
-# Project-local
-git clone https://github.com/iainlennox/AreWeLearning.git \
-  .opencode/skills/AreWeLearning
+~/.config/opencode/opencode.json     ← one line: where the library lives
+  "skills": ["/home/you/code/AreWeLearning"]
 ```
 
-Discovery finds any `SKILL.md` at any depth, so the whole repo can be cloned and each
-skill still registers by its folder name.
+The **folder name is the skill ID**. The name of the clone directory is irrelevant:
+discovery finds any `SKILL.md` at any depth, so
+`AreWeLearning/skills/learning/learning-log/SKILL.md` registers as `learning-log`, not
+`AreWeLearning`.
 
-Prefer to keep the repo elsewhere? Point your config at it:
+Nothing runs from this repo. You open your agent in the project you want to audit, and
+the skill reads and writes there.
+
+## Install
+
+### Point your config at a clone (recommended)
+
+```sh
+git clone https://github.com/iainlennox/AreWeLearning.git ~/code/AreWeLearning
+```
 
 ```jsonc
-// opencode.jsonc
+// ~/.config/opencode/opencode.json (global) or opencode.jsonc (project)
 {
   "$schema": "https://opencode.ai/config.json",
-  "skills": ["./AreWeLearning"]
+  "skills": ["/home/you/code/AreWeLearning"]
 }
 ```
 
-Or take a single skill:
+Use the global config so every project can reach it; use a project `opencode.jsonc` when
+only one repo should see it. Prefer an absolute path — relative paths resolve from the
+session's working directory, which is your target project, not this repo.
+
+Start a new session if the skill is not picked up immediately. Update with `git pull` in
+the clone; every project sees the change at once.
+
+### Clone into a skills directory
+
+If your harness already scans one, no config is needed:
 
 ```sh
-cp -r skills/learning/learning-log ~/.claude/skills/
+# OpenCode global, one project, or Claude Code
+git clone https://github.com/iainlennox/AreWeLearning.git \
+  ~/.config/opencode/skills/AreWeLearning
+git clone https://github.com/iainlennox/AreWeLearning.git \
+  .opencode/skills/AreWeLearning
+git clone https://github.com/iainlennox/AreWeLearning.git \
+  ~/.claude/skills/AreWeLearning
 ```
 
-Update with `git pull` in the clone.
+### Vendor a single skill
+
+To pin one skill to one project and share it with the team, copy the folder:
+
+```sh
+cp -r skills/learning/learning-log /path/to/project/.opencode/skills/
+```
+
+Do not clone this repo inside another repo — you would end up with a nested checkout.
+Copy the folder instead.
 
 ## Use
 
-Ask for it, or let the agent offer at the end of a build:
+Open your agent **in the project you want to audit**:
 
-```
-log what this used
-update my learning log
-what should I learn next
-review my gaps
+```sh
+cd ~/Work/distributedinferencelive
+opencode
 ```
 
-Capture writes to `docs/learning/` in the project you are working on — never to this
-repo, and never to your source files.
+Then ask, either with a trigger phrase:
+
+```
+baseline this repo        # first run on an existing codebase
+log what this used        # after a feature or refactor
+review my gaps            # triage what is still unknown
+```
+
+or name the skill explicitly when you want to be certain:
+
+```
+@learning-log baseline this repo
+```
+
+`@learning-log` loads the skill; the words after it are the job. Naming the skill on its
+own tends to get you a "what would you like me to do?".
+
+Capture writes to `docs/learning/` in the project you are working in — or
+`Docs/learning/` if the project already uses that casing. Never to this repo, never to
+source files.
 
 ## Repository layout
 
