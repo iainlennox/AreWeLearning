@@ -1,6 +1,6 @@
 # concepts.md Format
 
-`docs/learning/concepts.md` defines the jargon the project uses. It is a study aid,
+`concepts.md` in the learning log directory defines the jargon the project uses. It is a study aid,
 not a certificate: an entry means the term was met, never that the human has learned it.
 
 ## Template

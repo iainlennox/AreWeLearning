@@ -1,6 +1,6 @@
 # history.md Format
 
-`docs/learning/history.md` is the append-only record of what the log has seen. It is
+`history.md` in the learning log directory is the append-only record of what the log has seen. It is
 not a journal of the project — only captures and reviews of the log.
 
 ## Template

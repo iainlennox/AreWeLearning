@@ -1,6 +1,6 @@
 ---
 name: learning-log
-description: "Capture what a build actually used and turn it into a study list. Writes docs/learning/ with the stack, the craft and the concepts the work exercised, so the human can review what the AI did on their behalf and learn the gaps. Use after a build or substantial change, or when the user says \"log what this used\", \"update my learning log\", \"what did we just use\", \"what should I learn next\", or \"review my gaps\"."
+description: "Capture what a build actually used and turn it into a study list. Writes docs/learning/ with the stack, the craft and the concepts the work exercised, so the human can review what the AI did on their behalf and learn the gaps. Use after a build or substantial change, or when the user says \"baseline this repo\", \"log what this used\", \"update my learning log\", \"what did we just use\", \"what should I learn next\", or \"review my gaps\"."
 ---
 
 # Learning Log
@@ -18,7 +18,9 @@ build use that I should be able to explain or do myself?*
 
 ## The workspace
 
-The log lives in `docs/learning/` at the project root:
+The log lives in `docs/learning/` at the project root. If the project already uses a
+docs directory with different casing or a different name (`Docs/`, `documentation/`), put
+the log inside that rather than creating a second one:
 
 - `README.md`: the dashboard. Stack snapshot, status counts, what to look at next. Use [DASHBOARD-FORMAT.md](./DASHBOARD-FORMAT.md).
 - `skills.md`: the register. One entry per unit, grouped by domain, IDs permanent. Use [REGISTER-FORMAT.md](./REGISTER-FORMAT.md).
@@ -158,7 +160,7 @@ read.
   log, not even as examples.
 - **No lecture.** No flattery, no commentary on the human's skill level, no tutorial
   dumping. State what was used and let them decide what it means.
-- **No scope creep.** Write only inside `docs/learning/`. Never touch source, README or
+- **No scope creep.** Write only inside the learning log directory. Never touch source, README or
   config as part of a capture.
 - **Respect a no.** If the human declines a capture, do not ask again that session.
 

@@ -1,6 +1,6 @@
 # skills.md Format
 
-`docs/learning/skills.md` is the register: the source of truth. Everything else in the
+`skills.md` in the learning log directory is the register: the source of truth. Everything else in the
 workspace is generated from it or points into it.
 
 ## Frontmatter

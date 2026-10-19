@@ -1,6 +1,6 @@
 # README.md Format
 
-`docs/learning/README.md` is the dashboard: the page the human actually opens. It is
+`README.md` in the learning log directory is the dashboard: the page the human actually opens. It is
 generated from the register, never edited by hand into disagreement with it.
 
 ## Template
