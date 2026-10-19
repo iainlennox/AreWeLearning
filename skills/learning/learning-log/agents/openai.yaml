@@ -1,0 +1,3 @@
+interface:
+  display_name: "Learning Log"
+  short_description: "Audit what a build used and what to learn next"
