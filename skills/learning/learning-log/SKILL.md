@@ -61,12 +61,26 @@ Three tests for a candidate unit:
 If it fails all three, drop it or fold it into a parent unit. If a dependency is only
 present, not used in a way worth understanding, it is a stack line and nothing more.
 
+In a **baseline**, favour the units the project leans on — the patterns repeated across
+many files — over one-off details. A baseline that lists every library has failed; a
+baseline that names the ten ideas holding the system together has worked.
+
 ## Capture
 
-### 1. Scope what changed
+### 1. Scope
 
-`git status`, `git diff --stat`, and the conversation. Uncommitted work is fine; say so
-in the history entry instead of inventing a commit range.
+Two kinds of capture:
+
+- **Baseline** — the first capture in a project that already exists. Scope is the whole
+  repository, not a diff. Every module gets a stack line; units come from the
+  architecture and the choices already baked in. Expect more stack and fewer units than
+  an incremental capture.
+- **Incremental** — every capture after that. Scope is what changed: `git status`,
+  `git diff --stat`, and the conversation. Uncommitted work is fine; say so in the
+  history entry instead of inventing a commit range.
+
+If you cannot tell which applies, ask. Never describe a baseline as a diff, or a diff as
+a baseline.
 
 ### 2. Sweep for evidence
 

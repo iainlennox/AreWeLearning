@@ -30,8 +30,8 @@ Newest first. One block per capture or review. Never edit an older block.
   says what changed.
 - **One heading per event.** `## <date> · Capture: <what was built>` or
   `## <date> · Review`.
-- **State the scope.** Commit range or "uncommitted", plus the file count. Never invent
-  a range.
+- **State the scope.** `baseline, 564 files` or a commit range or "uncommitted", plus
+  the file count. Never invent a range.
 - **Report movement, not activity.** Units added, deepened, skipped and why. If nothing
   was added, say so — a capture with no new units is a useful result.
 - **Name what was dropped.** One line, with the reason. It prevents the same argument
