@@ -6,7 +6,8 @@ A small, curated collection of agent skills that keep a human in the loop while 
 the building — not by slowing the work down, but by making sure what was built can still
 be understood afterwards.
 
-Works with Claude Code, Codex, OpenCode, or anything that reads a `SKILL.md`.
+Works with Claude Code, Codex, GitHub Copilot, OpenCode, or anything that reads a
+`SKILL.md`.
 
 ## Skills
 
@@ -63,7 +64,9 @@ discovery finds any `SKILL.md` at any depth, so
 `AreWeLearning`.
 
 Nothing runs from this repo. You open your agent in the project you want to audit, and
-the skill reads and writes there.
+the skill reads and writes there. Only the registration differs by harness — a `skills`
+array for OpenCode, `copilot skill add` for Copilot CLI, a scanned directory for Claude
+Code — and all of them point at the same library.
 
 ## Install
 
@@ -102,12 +105,34 @@ git clone https://github.com/iainlennox/AreWeLearning.git \
   ~/.claude/skills/AreWeLearning
 ```
 
+### GitHub Copilot CLI
+
+Copilot CLI reads the same `SKILL.md` standard. Register the category folder once:
+
+```sh
+copilot skill add /path/to/AreWeLearning/skills/learning
+copilot skill list
+```
+
+That writes a pointer to `~/.copilot/settings.json`, so `git pull` updates Copilot and
+OpenCode together. The directory must contain skill folders directly, which is why it is
+`skills/learning` and not the repo root.
+
+Or let GitHub CLI install and track it:
+
+```sh
+gh skill install iainlennox/AreWeLearning learning-log
+```
+
+That copies the files; `gh skill` handles placement and updates.
+
 ### Vendor a single skill
 
 To pin one skill to one project and share it with the team, copy the folder:
 
 ```sh
-cp -r skills/learning/learning-log /path/to/project/.opencode/skills/
+cp -r skills/learning/learning-log /path/to/project/.opencode/skills/  # OpenCode
+cp -r skills/learning/learning-log /path/to/project/.github/skills/    # Copilot, incl. cloud agent
 ```
 
 Do not clone this repo inside another repo — you would end up with a nested checkout.
@@ -133,11 +158,13 @@ review my gaps            # triage what is still unknown
 or name the skill explicitly when you want to be certain:
 
 ```
-@learning-log baseline this repo
+@learning-log baseline this repo          # OpenCode
+Use the /learning-log skill to baseline this repo.   # Copilot CLI
 ```
 
 `@learning-log` loads the skill; the words after it are the job. Naming the skill on its
-own tends to get you a "what would you like me to do?".
+own tends to get you a "what would you like me to do?". Copilot CLI addresses skills with
+a leading slash instead of an at-sign.
 
 Capture writes to `docs/learning/` in the project you are working in — or
 `Docs/learning/` if the project already uses that casing. Never to this repo, never to
